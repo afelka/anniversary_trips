@@ -24,19 +24,19 @@ locations <- list(
   riga = c(lon = 24.1052, lat = 56.9496)
 )
 
-# Define flight paths and corresponding years
+# Define flight paths and corresponding years and destination country code
 flight_segments <- list(
-  c("istanbul", "lisbon", 2013),
-  c("lisbon", "belgrade", 2014),
-  c("belgrade", "malmo", 2015),
-  c("malmo", "paris", 2016),
-  c("paris", "madrid", 2017),
-  c("madrid", "geneva", 2018),
-  c("geneva", "vilnius", 2019),
-  c("vilnius", "copenhagen", 2022),
-  c("copenhagen", "porto", 2023),
-  c("porto", "thisted", 2024),
-  c("thisted", "riga", 2025)
+  c("istanbul", "lisbon", 2013, "pt"),
+  c("lisbon", "belgrade", 2014, "rs"),
+  c("belgrade", "malmo", 2015, "se"),
+  c("malmo", "paris", 2016, "fr"),
+  c("paris", "madrid", 2017, "es"),
+  c("madrid", "geneva", 2018, "ch"),
+  c("geneva", "vilnius", 2019, "lt"),
+  c("vilnius", "copenhagen", 2022, "dk"),
+  c("copenhagen", "porto", 2023, "pt"),
+  c("porto", "thisted", 2024, "dk"),
+  c("thisted", "riga", 2025, "lv")
 )
 
 # Number of points for animation
@@ -49,14 +49,14 @@ segment_index <- 1
 for (segment in flight_segments) {
   start <- locations[[segment[1]]]
   end <- locations[[segment[2]]]
-  year <- segment[3]
   
   path <- as.data.frame(geosphere::gcIntermediate(start, end, n = n_points, addStartEnd = TRUE))
   path$segment <- factor(segment_index)  
   path$frame <- seq_len(nrow(path)) + (segment_index - 1) * n_points  
-  path$year <- year  # Assign year
   path$start <- segment[1]
   path$end <- segment[2]
+  path$year <- segment[3]
+  path$country <- segment[4]
   
   all_flights <- bind_rows(all_flights, path)
   segment_index <- segment_index + 1
@@ -92,6 +92,9 @@ for (i in seq_len(nrow(all_flights))) {
   # calculate angle for plane image between two cities
   angle <- bearing(location_coords_start, location_coords_end)
   
+  # get country png
+  flag_path <- paste0(current_data$country,".png")
+  
   # plot for each frame
   p <- ggplot() +
     geom_polygon(data = world_map, aes(x = long, y = lat, group = group), 
@@ -104,14 +107,18 @@ for (i in seq_len(nrow(all_flights))) {
     coord_fixed(xlim = c(-20, 35), ylim = c(35, 60)) + 
     labs(
       title = 'Anniversary Trips', 
-      subtitle = paste0("Going to ", toTitleCase(current_data$end)  ," in ", current_data$year)) +  
+      subtitle = paste0("Going to ", toTitleCase(current_data$end), 
+                        " <img src='", flag_path, "' width='8'/>",
+                        " in ", current_data$year )  
+    )  +
     theme_minimal() +
     theme(
       axis.text = element_blank(), 
       axis.ticks = element_blank(), 
       axis.title = element_blank(),
       panel.grid = element_blank(), 
-      panel.border = element_blank()
+      panel.border = element_blank(),
+      plot.subtitle = ggtext::element_markdown()
     )
   
   
