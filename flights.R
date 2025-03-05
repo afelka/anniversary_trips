@@ -73,23 +73,33 @@ for (i in seq_len(nrow(all_flights))) {
   # Subset data up to current row
   current_data <- all_flights[i:i, ]
   
-  # get destination city name
-  city_name <- current_data$end
+  # get destination end city
+  city_end <- current_data$end
   
   # Access the correct location based on city_name
-  location_coords <- locations[[city_name]]
+  location_coords_end <- locations[[city_end]]
   
   # get lon and lat for destination city
-  lon <- location_coords['lon']
-  lat <- location_coords['lat']
+  lon <- location_coords_end['lon']
+  lat <- location_coords_end['lat']
+  
+  # get start city
+  city_start <- current_data$start
+  
+  # coordinates of the start city
+  location_coords_start <- locations[[city_start]]
+  
+  # calculate angle for plane image between two cities
+  angle <- bearing(location_coords_start, location_coords_end)
   
   # plot for each frame
   p <- ggplot() +
     geom_polygon(data = world_map, aes(x = long, y = lat, group = group), 
                  fill = alpha("gray90", 0.6), color = "lightgray") +  
-    geom_image(data = current_data, aes(x = lon, y = lat, image = plane_image), size = 0.08) +  
+    # plane image is already at 45 degree angle therefore we need to subtract 45 to get to correct direction
+    geom_image(data = current_data, aes(x = lon, y = lat, image = plane_image), size = 0.08, angle = angle - 45 ) +  
     geom_point(aes(x = lon, y = lat), color = "red", size = 5) +  # Mark city
-    geom_text(aes(x = lon, y = lat, label = toTitleCase(city_name)), color = "darkblue", vjust = -1.5) +
+    geom_text(aes(x = lon, y = lat, label = toTitleCase(city_end)), color = "darkblue", vjust = -1.5) +
     # cut for Europe focus
     coord_fixed(xlim = c(-20, 35), ylim = c(35, 60)) + 
     labs(
