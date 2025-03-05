@@ -109,7 +109,7 @@ for (i in seq_len(nrow(all_flights))) {
 }
 
 # using the animation method found here : https://stackoverflow.com/a/73376411/10710995
-filenames <- paste0("frames/frame_", sprintf("%03d", 1:572), ".jpg")
+filenames <- paste0("frames/frame_", sprintf("%03d", 1:nrow(all_flights)), ".jpg")
 
 av::av_encode_video(filenames, framerate = 20,
                     output = "anniversary_trips.mp4")
