@@ -86,7 +86,7 @@ for (i in seq_len(nrow(all_flights))) {
   # plot for each frame
   p <- ggplot() +
     geom_polygon(data = world_map, aes(x = long, y = lat, group = group), 
-                 fill = "gray90", color = "black") +  
+                 fill = alpha("gray90", 0.6), color = "lightgray") +  
     geom_image(data = current_data, aes(x = lon, y = lat, image = plane_image), size = 0.08) +  
     geom_point(aes(x = lon, y = lat), color = "red", size = 5) +  # Mark city
     geom_text(aes(x = lon, y = lat, label = toTitleCase(city_name)), color = "darkblue", vjust = -1.5) +
