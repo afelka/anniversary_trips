@@ -7,3 +7,4 @@
 *.jpg
 *.mp4
 *.Rproj
+!images/frame_001.jpg
