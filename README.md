@@ -3,5 +3,5 @@
 Creating frame by frame ggplot2 images and combining them for an animation.
 
 ### Example Frame
-![](images/frame001.jpg) 
+![](images/frame_001.jpg) 
 
