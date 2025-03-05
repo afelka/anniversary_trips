@@ -90,6 +90,7 @@ for (i in seq_len(nrow(all_flights))) {
     geom_image(data = current_data, aes(x = lon, y = lat, image = plane_image), size = 0.08) +  
     geom_point(aes(x = lon, y = lat), color = "red", size = 5) +  # Mark city
     geom_text(aes(x = lon, y = lat, label = toTitleCase(city_name)), color = "darkblue", vjust = -1.5) +
+    # cut for Europe focus
     coord_fixed(xlim = c(-20, 35), ylim = c(35, 60)) + 
     labs(
       title = 'Anniversary Trips', 
