@@ -8,3 +8,4 @@
 *.mp4
 *.Rproj
 !images/frame_001.jpg
+!plane.png
