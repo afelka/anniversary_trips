@@ -93,7 +93,7 @@ for (i in seq_len(nrow(all_flights))) {
     coord_fixed(xlim = c(-20, 35), ylim = c(35, 60)) + 
     labs(
       title = 'Anniversary Trips', 
-      subtitle = paste0("Going to ", toTitleCase(current_data$end)  ," in Year ", current_data$year)) +  
+      subtitle = paste0("Going to ", toTitleCase(current_data$end)  ," in ", current_data$year)) +  
     theme_minimal() +
     theme(
       axis.text = element_blank(), 
