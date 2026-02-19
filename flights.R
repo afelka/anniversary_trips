@@ -21,7 +21,8 @@ locations <- list(
   copenhagen = c(lon = 12.5655, lat = 55.6761),
   porto = c(lon = -8.6110, lat = 41.1496),
   thisted = c(lon = 8.5690, lat = 56.9550),
-  riga = c(lon = 24.1052, lat = 56.9496)
+  riga = c(lon = 24.1052, lat = 56.9496),
+  gdansk = c(lon = 18.6466, lat = 54.3520)
 )
 
 # Define flight paths and corresponding years and destination country code
@@ -36,7 +37,8 @@ flight_segments <- list(
   c("vilnius", "copenhagen", 2022, "dk"),
   c("copenhagen", "porto", 2023, "pt"),
   c("porto", "thisted", 2024, "dk"),
-  c("thisted", "riga", 2025, "lv")
+  c("thisted", "riga", 2025, "lv"),
+  c("riga", "gdansk", 2026, "pl")
 )
 
 # Number of points for animation
